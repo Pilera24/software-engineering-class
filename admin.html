@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Software Engineering Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* BASE & LAYOUT TRANSPARENT */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            color: #ffffff;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 1;
+        }
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(16, 185, 129, 0.08);
+            top: -10%;
+            left: 10%;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            height: 70px;
+            z-index: 10;
+        }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #10b981;
+        }
+
+        .nav-back {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            padding: 8px 14px;
+            font-size: 13px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-back:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+        }
+
+        /* LAYOUT SYSTEM WITH SIDEBAR & SCROLLABLE WORKSPACE */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        /* SIDEBAR */
+        .admin-sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .menu-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            padding: 14px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .menu-btn:hover, .menu-btn.active {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+            border-color: #10b981;
+            color: #ffffff;
+        }
+
+        /* SCROLLABLE WORKSPACE */
+        .admin-workspace {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        /* GRID POUR L'ONGLET REPOSITORY CREATION */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+        }
+
+        .panel-header i {
+            font-size: 20px;
+        }
+
+        /* CONFIGURATION DES ELEMENTS FORMULAIRES */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select option {
+            background: #1e1b4b;
+            color: #ffffff;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            border-color: #10b981;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-wrapper:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.03);
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-wrapper i {
+            font-size: 22px;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        .file-upload-wrapper p {
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: auto;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* MANAGEMENT TABLE SECTION */
+        .management-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .crud-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .crud-table th, .crud-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 14px;
+        }
+
+        .crud-table th {
+            color: #94a3b8;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .crud-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .action-icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            margin-right: 12px;
+            transition: transform 0.2s;
+        }
+
+        .action-icon-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .btn-edit { color: #38bdf8; }
+        .btn-delete { color: #f43f5e; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-circle circle-1"></div>
+
+    <nav class="navbar">
+        <div class="nav-logo">
+            <i class="fa-solid fa-user-shield"></i> SE Class — Admin Dashboard
+        </div>
+        <a href="learning_space.html" class="nav-back">
+            <i class="fa-solid fa-graduation-cap"></i> Student View
+        </a>
+    </nav>
+
+    <div class="main-container">
+        
+        <aside class="admin-sidebar">
+            <div class="sidebar-title">Navigation</div>
+            <button class="menu-btn active" id="btnMenuCreation" onclick="switchTab('creation')">
+                <i class="fa-solid fa-folder-plus"></i> Repository Creation
+            </button>
+            <button class="menu-btn" id="btnMenuManagement" onclick="switchTab('management')">
+                <i class="fa-solid fa-list-check"></i> Document Management
+            </button>
+            
+            <div class="sidebar-title" style="margin-top: 20px;">Shortcuts</div>
+            <a href="learning_space.html" class="menu-btn" style="text-decoration: none;">
+                <i class="fa-solid fa-arrow-left-long"></i> Exit Dashboard
+            </a>
+        </aside>
+
+        <main class="admin-workspace">
+            
+            <div id="tabCreation" class="admin-grid">
+                
+                <!-- 1. UPLOAD LECTURE NOTES -->
+                <div class="admin-panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-file-pdf" style="color: #f59e0b;"></i> Upload Lecture Notes
+                    </div>
+                    <div class="form-group">
+                        <label>Select Destination Folder</label>
+                        <select id="targetFolder">
+                            <option value="2027">📁 2027 Lecture Notes</option>
+                            <option value="2026">📁 2026 Lecture Notes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Document Title</label>
+                        <input type="text" id="docTitle" placeholder="e.g., Introduction to Git Architecture">
+                    </div>
+                    <div class="form-group">
+                        <label>Select File (PDF, Word)</label>
+                        <div class="file-upload-wrapper">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <p id="uploadStatus">Click or drag your course document here</p>
+                            <input type="file" id="docFile" accept=".pdf,.doc,.docx" onchange="updateFileInfo('docFile', 'uploadStatus', '📄 Selected: ')">
+                        </div>
+                    </div>
+                    <button class="btn-action" onclick="publishDocument()">
+                        <i class="fa-solid fa-plus"></i> Publish Document
+                    </button>
+                </div>
+
+                <!-- 2. UPLOAD VIDEO TUTORIALS -->
+                <div class="admin-panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-video" style="color: #ec4899;"></i> Upload Video Tutorials
+                    </div>
+                    <div class="form-group">
+                        <label>Video Title</label>
+                        <input type="text" id="videoTitle" placeholder="e.g., Object-Oriented Programming (OOP) Deep Dive">
+                    </div>
+                    <div class="form-group">
+                        <label>Source Type</label>
+                        <select id="videoSourceType" onchange="toggleVideoInputType()">
+                            <option value="local">💻 Local Video File (MP4, WebM)</option>
+                            <option value="url">🔗 External Link (YouTube, Vimeo)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="videoFileInputGroup">
+                        <label>Select Video File</label>
+                        <div class="file-upload-wrapper">
+                            <i class="fa-solid fa-file-video"></i>
+                            <p id="videoUploadStatus">Click or drag your MP4/WebM video here</p>
+                            <input type="file" id="videoFile" accept="video/mp4,video/webm,video/mkv" onchange="updateFileInfo('videoFile', 'videoUploadStatus', '🎥 Selected: ')">
+                        </div>
+                    </div>
+                    <div class="form-group" id="videoUrlInputGroup" style="display: none;">
+                        <label>Video URL</label>
+                        <input type="text" id="videoLink" placeholder="Paste YouTube/Vimeo link here">
+                    </div>
+                    <button class="btn-action" onclick="publishVideo()">
+                        <i class="fa-solid fa-circle-play"></i> Share Video Lesson
+                    </button>
+                </div>
+
+                <!-- 3. CREATE NEW EXERCISE (WITH PDF SUPPORT) -->
+                <div class="admin-panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-pen-to-square" style="color: #38bdf8;"></i> Create New Exercise
+                    </div>
+                    <div class="form-group">
+                        <label>Exercise Title</label>
+                        <input type="text" id="exerciseTitle" placeholder="e.g., Practical Homework: REST API design">
+                    </div>
+                    <div class="form-group">
+                        <label>Instructions & Coding Challenges</label>
+                        <textarea id="exerciseInstructions" rows="3" placeholder="Write requirements and rules for the student..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Attach Exercise Document (PDF, Word - Optional)</label>
+                        <div class="file-upload-wrapper">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <p id="exerciseUploadStatus">Click or drag exercise PDF / instructions here</p>
+                            <input type="file" id="exerciseFile" accept=".pdf,.doc,.docx" onchange="updateFileInfo('exerciseFile', 'exerciseUploadStatus', '📑 Selected: ')">
+                        </div>
+                    </div>
+                    <button class="btn-action" onclick="publishExercise()">
+                        <i class="fa-solid fa-paper-plane"></i> Deploy Assignment
+                    </button>
+                </div>
+
+                <!-- 4. PENDING STUDENT QUESTIONS -->
+                <!-- 4. PENDING STUDENT QUESTIONS -->
+<div class="admin-panel">
+    <div class="panel-header">
+        <i class="fa-solid fa-chalkboard-user" style="color: #a855f7;"></i> Pending Student Questions
+    </div>
+    <div class="form-group">
+        <label>Select Question Ticket</label>
+        <select id="questionTicket">
+            <option value="">Chargement des tickets...</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Your Professional Answer</label>
+        <textarea id="questionAnswer" rows="3" placeholder="Type your core architectural solution here..."></textarea>
+    </div>
+    <button class="btn-action" onclick="answerQuestion()">
+        <i class="fa-solid fa-reply"></i> Send Answer
+    </button>
+</div>
+
+            </div>
+
+            <!-- TAB MANAGEMENT -->
+            <div id="tabManagement" class="management-panel" style="display: none;">
+                <div class="panel-header">
+                    <i class="fa-solid fa-folder-tree" style="color: #10b981;"></i> Repository Document Management
+                </div>
+                <table class="crud-table">
+                    <thead>
+                        <tr>
+                            <th>Document Title</th>
+                            <th>Target Folder</th>
+                            <th>Database Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <tr>
+                            <td colspan="3" style="text-align: center; color: #64748b; font-style: italic;">Loading files directly from Supabase database...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Script Admin distinct -->
+    <script src="admin.js"></script>
+</body>
+</html>

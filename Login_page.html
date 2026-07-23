@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Software Engineering Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(99, 102, 241, 0.15);
+            top: 15%;
+            left: 25%;
+        }
+
+        .circle-2 {
+            width: 350px;
+            height: 350px;
+            background: rgba(168, 85, 247, 0.12);
+            bottom: 20%;
+            right: 25%;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            z-index: 2;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 16px;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+        }
+
+        input:focus + .input-icon {
+            color: #6366f1;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;          
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
+            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+        }
+
+        .btn-forgot {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s ease;
+        }
+
+        .btn-forgot:hover {
+            color: #6366f1;
+        }
+
+        .register-link {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .register-link a {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: #818cf8;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+
+    <div class="login-container">
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Please login to access your learning workspace</p>
+        
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <input type="email" placeholder="Email Address" required>
+                <i class="fa-regular fa-envelope input-icon"></i>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" placeholder="Password" required>
+                <i class="fa-solid fa-lock input-icon"></i>
+            </div>
+            
+            <button type="submit" class="btn-login">
+                <i class="fa-solid fa-right-to-bracket"></i> Login
+            </button>
+            
+            <a href="#" class="btn-forgot">
+                <i class="fa-solid fa-circle-question"></i> Forgot Password?
+            </a>
+
+            <div class="register-link">
+                Don't have an account? <a href="register.html">Sign up</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const SUPABASE_URL = "https://mtdpidjcpopcnnoduemd.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10ZHBpZGpjcG9wY25ub2R1ZW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4NDU0MDAsImV4cCI6MjA5OTQyMTQwMH0.0vrcMN-LuQV34iehWUgjiGWN7HH_ulBHSKlJ4mdtlec";
+
+        // 🔥 MODIFICATION ICI : On utilise 'supabaseClient' pour éliminer le conflit de variables
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); 
+    
+    const email = event.target.querySelector('input[type="email"]').value;
+    const password = event.target.querySelector('input[type="password"]').value;
+
+    // 1. Authentification de l'utilisateur
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        alert("Erreur de connexion : " + error.message);
+        console.error(error);
+        return;
+    }
+
+    // 2. Si la connexion réussit, on récupère son rôle depuis la table 'profiles'
+    if (data.user) {
+        const { data: profile, error: profileError } = await supabaseClient
+            .from('profiles')
+            .select('role')
+            .eq('id', data.user.id)
+            .single(); // .single() permet de récupérer un seul objet plutôt qu'un tableau
+
+        if (profileError || !profile) {
+            console.error("Erreur de profil:", profileError);
+            // Par sécurité, si le profil n'est pas trouvé, on l'envoie vers l'espace étudiant
+            window.location.href = 'learning_space.html';
+            return;
+        }
+
+        // 3. 🔀 AIGUILLAGE DU RÔLE
+        if (profile.role === 'admin') {
+            alert("Bienvenue, Administrateur !");
+            window.location.href = 'admin.html'; // Redirection Admin
+        } else {
+            alert("Connexion réussie ! Bienvenue dans votre espace.");
+            window.location.href = 'learning_space.html'; // Redirection Étudiant
+        }
+    }
+});
+    </script>
+</body>
+</html> 

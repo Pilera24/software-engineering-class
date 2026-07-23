@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Software Engineering Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: rgba(99, 102, 241, 0.15);
+            top: 15%;
+            left: 25%;
+        }
+
+        .circle-2 {
+            width: 350px;
+            height: 350px;
+            background: rgba(168, 85, 247, 0.12);
+            bottom: 20%;
+            right: 25%;
+        }
+
+        .register-container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            z-index: 2;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 16px;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+        }
+
+        input:focus + .input-icon {
+            color: #6366f1;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
+            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+        }
+
+        .login-link {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .login-link a {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #818cf8;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+
+    <div class="register-container">
+        <h2>Create Account</h2>
+        <p class="subtitle">Join the class and master Software Engineering</p>
+        
+        <form class="register-form" id="registerForm">
+            <div class="input-group">
+                <input type="text" placeholder="Full Name" required>
+                <i class="fa-regular fa-user input-icon"></i>
+            </div>
+
+            <div class="input-group">
+                <input type="email" placeholder="Email Address" required>
+                <i class="fa-regular fa-envelope input-icon"></i>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" placeholder="Create Password" required>
+                <i class="fa-solid fa-lock input-icon"></i>
+            </div>
+            
+            <button type="submit" class="btn-register">
+                <i class="fa-solid fa-user-plus"></i> Sign Up
+            </button>
+            
+            <div class="login-link">
+                Already have an account? <a href="Login_page.html">Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+       const SUPABASE_URL = "https://mtdpidjcpopcnnoduemd.supabase.co";
+// ⚠️ Mets ta vraie clé eyJ... ici
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10ZHBpZGpjcG9wY25ub2R1ZW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4NDU0MDAsImV4cCI6MjA5OTQyMTQwMH0.0vrcMN-LuQV34iehWUgjiGWN7HH_ulBHSKlJ4mdtlec"; 
+
+// 💡 CHANGEMENT ICI : On nomme la variable 'supabaseClient' pour éviter le conflit
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+document.getElementById('registerForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    
+    const email = event.target.querySelector('input[type="email"]').value;
+    const password = event.target.querySelector('input[type="password"]').value;
+    const fullName = event.target.querySelector('input[type="text"]').value;
+
+    // 1. Création du compte via notre client renommé
+    const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+            emailRedirectTo: null, 
+            data: { display_name: fullName }
+        } 
+    }); 
+
+    if (error) {
+        alert("Erreur d'inscription : " + error.message);
+        console.error(error);
+        return;
+    }
+
+    // 2. Écriture forcée dans le profil
+    if (data.user) {
+        const { error: profileError } = await supabaseClient
+            .from('profiles')
+            .insert([
+                { id: data.user.id, full_name: fullName, role: 'student' }
+            ]);
+
+        if (profileError) {
+            console.log("Note sur le profil :", profileError.message);
+        }
+        
+        alert("Inscription réussie avec succès !");
+        window.location.href = 'Login_page.html';
+    }
+});
+    </script>
+</body>
+</html>
