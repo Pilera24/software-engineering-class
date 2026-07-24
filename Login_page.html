@@ -24,7 +24,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            position: relative;
+            position: relative;       
         }
 
         .bg-circle {
@@ -203,9 +203,10 @@
                 <i class="fa-solid fa-right-to-bracket"></i> Login
             </button>
             
-            <a href="#" class="btn-forgot">
-                <i class="fa-solid fa-circle-question"></i> Forgot Password?
-            </a>
+          <a href="forgot_password.html" class="btn-forgot">
+         <i class="fa-solid fa-circle-question"></i> Forgot Password?
+        </a>
+       
 
             <div class="register-link">
                 Don't have an account? <a href="register.html">Sign up</a>
@@ -232,10 +233,10 @@
     const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: email,
         password: password,
-    });
+    });         
 
     if (error) {
-        alert("Erreur de connexion : " + error.message);
+        alert("Connexion error: " + error.message);
         console.error(error);
         return;
     }
@@ -249,7 +250,7 @@
             .single(); // .single() permet de récupérer un seul objet plutôt qu'un tableau
 
         if (profileError || !profile) {
-            console.error("Erreur de profil:", profileError);
+            console.error("Profile error:", profileError);
             // Par sécurité, si le profil n'est pas trouvé, on l'envoie vers l'espace étudiant
             window.location.href = 'learning_space.html';
             return;
@@ -257,10 +258,10 @@
 
         // 3. 🔀 AIGUILLAGE DU RÔLE
         if (profile.role === 'admin') {
-            alert("Bienvenue, Administrateur !");
+            alert("Welcome, Administrator !");
             window.location.href = 'admin.html'; // Redirection Admin
         } else {
-            alert("Connexion réussie ! Bienvenue dans votre espace.");
+            alert("Successful connection! Welcome to your space.");
             window.location.href = 'learning_space.html'; // Redirection Étudiant
         }
     }

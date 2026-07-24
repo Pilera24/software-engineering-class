@@ -186,9 +186,17 @@
             </div>
             
             <div class="input-group">
-                <input type="password" placeholder="Create Password" required>
+                <input type="password" id="password" placeholder="Create Password" required>
                 <i class="fa-solid fa-lock input-icon"></i>
             </div>
+
+            <div class="input-group">
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                <i class="fa-solid fa-lock input-icon"></i>
+            </div>
+
+            <!-- Message d'erreur dynamique -->
+            <p id="passwordError" style="color: #f43f5e; font-size: 0.85rem; display: none; margin-bottom: 15px; text-align: left;"></p>
             
             <button type="submit" class="btn-register">
                 <i class="fa-solid fa-user-plus"></i> Sign Up
@@ -200,54 +208,93 @@
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-       const SUPABASE_URL = "https://mtdpidjcpopcnnoduemd.supabase.co";
-// ⚠️ Mets ta vraie clé eyJ... ici
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10ZHBpZGpjcG9wY25ub2R1ZW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4NDU0MDAsImV4cCI6MjA5OTQyMTQwMH0.0vrcMN-LuQV34iehWUgjiGWN7HH_ulBHSKlJ4mdtlec"; 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = "https://mtdpidjcpopcnnoduemd.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10ZHBpZGpjcG9wY25ub2R1ZW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4NDU0MDAsImV4cCI6MjA5OTQyMTQwMH0.0vrcMN-LuQV34iehWUgjiGWN7HH_ulBHSKlJ4mdtlec"; 
 
-// 💡 CHANGEMENT ICI : On nomme la variable 'supabaseClient' pour éviter le conflit
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-document.getElementById('registerForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    
-    const email = event.target.querySelector('input[type="email"]').value;
-    const password = event.target.querySelector('input[type="password"]').value;
-    const fullName = event.target.querySelector('input[type="text"]').value;
+    // Fonction de validation des mots de passe
+    function validatePasswordConfirmation() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const errorElement = document.getElementById('passwordError');
 
-    // 1. Création du compte via notre client renommé
-    const { data, error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-            emailRedirectTo: null, 
-            data: { display_name: fullName }
-        } 
-    }); 
-
-    if (error) {
-        alert("Erreur d'inscription : " + error.message);
-        console.error(error);
-        return;
-    }
-
-    // 2. Écriture forcée dans le profil
-    if (data.user) {
-        const { error: profileError } = await supabaseClient
-            .from('profiles')
-            .insert([
-                { id: data.user.id, full_name: fullName, role: 'student' }
-            ]);
-
-        if (profileError) {
-            console.log("Note sur le profil :", profileError.message);
+        // 1. Longueur minimale
+        if (password.length < 6) {
+            showError("Le mot de passe doit contenir au moins 6 caractères.");
+            return false;
         }
-        
-        alert("Inscription réussie avec succès !");
-        window.location.href = 'Login_page.html';
+
+        // 2. Correspondance
+        if (password !== confirmPassword) {
+            showError("The passwords do not match.");
+            return false;
+        }
+
+        // Réinitialisation du message d'erreur si tout est bon
+        if (errorElement) errorElement.style.display = 'none';
+        return true;
     }
-});
-    </script>
+   
+
+    // Afficher le message d'erreur dans l'interface
+    function showError(message) {
+        const errorElement = document.getElementById('passwordError');
+        if (errorElement) {
+            errorElement.innerText = message;
+            errorElement.style.display = 'block';
+        } else {
+            alert(message);
+        }
+    }
+
+    // Écouteur sur la soumission du formulaire
+    document.getElementById('registerForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        // --- ÉTAPE 1 : Validation préalable des mots de passe ---
+        if (!validatePasswordConfirmation()) {
+            return; // Bloque la suite si les mots de passe ne correspondent pas
+        }
+
+        const email = event.target.querySelector('input[type="email"]').value;
+        const password = document.getElementById('password').value;
+        const fullName = event.target.querySelector('input[type="text"]').value;
+
+        // --- ÉTAPE 2 : Création du compte via Supabase ---
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                emailRedirectTo: null, 
+                data: { display_name: fullName }
+            } 
+        }); 
+
+        if (error) {
+            showError("Registration error : " + error.message);
+            console.error(error);
+            return;
+        }
+
+        // --- ÉTAPE 3 : Insertion dans le profil d'utilisateur ---
+        if (data.user) {
+            const { error: profileError } = await supabaseClient
+                .from('profiles')
+                .insert([
+                    { id: data.user.id, full_name: fullName, role: 'student' }
+                ]);
+
+            if (profileError) {
+                console.log("Note sur le profil :", profileError.message);
+            }
+            
+            alert("Inscription réussie avec succès !");
+            window.location.href = 'Login_page.html';
+        }
+    });
+</script>
 </body>
 </html>

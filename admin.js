@@ -320,6 +320,18 @@ async function removeDocument(id) {
         fetchAdminDocuments();
     }
 }
+// 🚪 Fonction pour sortir du Dashboard (Redirection)
+function exitDashboard() {
+    // Optionnel : Réinitialiser la session Supabase si vous utilisez l'authentification
+    await supabaseClient.auth.signOut();
+
+    // Optionnel : Nettoyer le stockage local si nécessaire
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Redirige vers la page d'accueil ou de connexion
+    window.location.href = "login.html"; // ou "/" ou "index.html"
+}
 
 // ==========================================
 // INITIALISATION
