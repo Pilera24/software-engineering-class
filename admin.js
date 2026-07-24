@@ -190,7 +190,7 @@ async function fetchPendingTickets() {
         .eq('status', 'pending');
 
     if (error) {
-        console.error("Erreur de chargement des tickets :", error.message);
+        console.error("Error loading tickets :", error.message);
         return;
     }
 
@@ -321,16 +321,17 @@ async function removeDocument(id) {
     }
 }
 // 🚪 Fonction pour sortir du Dashboard (Redirection)
-function exitDashboard() {
-    // Optionnel : Réinitialiser la session Supabase si vous utilisez l'authentification
-    await supabaseClient.auth.signOut();
+// 🚪 Quitter le dashboard et bloquer le retour arrière
+function exitDashboard(event) {
+    // 1. Bloque la navigation par défaut du balise <a>
+    event.preventDefault();
 
-    // Optionnel : Nettoyer le stockage local si nécessaire
-    localStorage.clear();
+    // 2. Nettoie la session (stockage local/session)
     sessionStorage.clear();
+    localStorage.clear();
 
-    // Redirige vers la page d'accueil ou de connexion
-    window.location.href = "login.html"; // ou "/" ou "index.html"
+    // 3. Remplace la page actuelle dans l'historique pour bloquer le bouton "Précédent"
+    window.location.replace("Login_page.html");
 }
 
 // ==========================================

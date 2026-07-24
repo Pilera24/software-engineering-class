@@ -663,9 +663,10 @@
 
             <!-- Boutons de navigation mis à jour -->
             <button class="nav-btn" id="qaNavBtn" onclick="loadQAContent()"><i class="fa-solid fa-comments"></i> Question and Answer</button>
-            <button class="nav-btn" id="exercisesNavBtn" onclick="loadExercisesContent()"><i class="fa-solid fa-pen-to-square"></i> Exercice</button>
+            <button class="nav-btn" id="exercisesNavBtn" onclick="loadExercisesContent()"><i class="fa-solid fa-pen-to-square"></i> Assignment</button>
+            <button class="nav-btn" id="LogoutNavBtn" onclick="Logout(event)"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
         </div>
-    </nav>
+    </nav>          
 
     <div class="main-layout">
         
@@ -1059,6 +1060,17 @@
             const targetList = document.getElementById(listId);
             targetList.classList.toggle('open');
             headerElement.classList.toggle('active');
+        }
+        function Logout(event) {
+         // 1. Bloque la navigation par défaut du balise <a>
+        event.preventDefault();
+
+        // 2. Nettoie la session (stockage local/session)
+         sessionStorage.clear();
+        localStorage.clear();
+
+        // 3. Remplace la page actuelle dans l'historique pour bloquer le bouton "Précédent"
+        window.location.replace("Login_page.html");
         }
 
         // Menu "Full project example"
