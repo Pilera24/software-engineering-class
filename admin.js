@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIGURATION SUPABASE CLIENT
+// SUPABASE CLIENT CONFIGURATION
 // ==========================================
 const SUPABASE_URL = "https://mtdpidjcpopcnnoduemd.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10ZHBpZGpjcG9wY25ub2R1ZW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4NDU0MDAsImV4cCI6MjA5OTQyMTQwMH0.0vrcMN-LuQV34iehWUgjiGWN7HH_ulBHSKlJ4mdtlec";
@@ -7,10 +7,10 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ==========================================
-// NAVIGATION & INTERFACE UI
+// NAVIGATION & UI INTERFACE
 // ==========================================
 
-// 🔄 Commutateur d'onglets (Creation vs Management)
+// 🔄 Tab switcher (Creation vs Management)
 function switchTab(tabName) {
     const tabCreation = document.getElementById('tabCreation');
     const tabManagement = document.getElementById('tabManagement');
@@ -31,7 +31,7 @@ function switchTab(tabName) {
     }
 }
 
-// 🎥 Basculer entre fichier vidéo local et lien URL
+// 🎥 Toggle between local video file and URL link
 function toggleVideoInputType() {
     const type = document.getElementById('videoSourceType').value;
     const fileGroup = document.getElementById('videoFileInputGroup');
@@ -46,7 +46,7 @@ function toggleVideoInputType() {
     }
 }
 
-// 📄 Met à jour l'affichage dynamique du fichier sélectionné
+// 📄 Dynamically updates the display of the selected file
 function updateFileInfo(inputId, statusId, prefix) {
     const fileInput = document.getElementById(inputId);
     const statusText = document.getElementById(statusId);
@@ -58,10 +58,10 @@ function updateFileInfo(inputId, statusId, prefix) {
 }
 
 // ==========================================
-// ACTIONS DU DASHBOARD ADMIN
+// ADMIN DASHBOARD ACTIONS
 // ==========================================
 
-// 1. 🚀 Publication de cours/documents (Table 'lecture_notes')
+// 1. 🚀 Publishing courses/documents (Table 'lecture_notes')
 async function publishDocument() {
     const folderYear = document.getElementById('targetFolder').value;
     const docTitle = document.getElementById('docTitle').value.trim();
@@ -78,7 +78,7 @@ async function publishDocument() {
         ]);
 
     if (error) {
-        alert("Erreur Supabase : " + error.message);
+        alert("Supabase error: " + error.message);
         console.error(error);
     } else {
         alert(`Successfully published "${docTitle}" into the ${folderYear} Lecture Notes folder on Supabase!`);
@@ -90,7 +90,7 @@ async function publishDocument() {
     }
 }
 
-// 2. 🚀 Publication de leçons vidéo (Table 'videos')
+// 2. 🚀 Publishing video lessons (Table 'videos')
 async function publishVideo() {
     const videoTitle = document.getElementById('videoTitle').value.trim();
     const sourceType = document.getElementById('videoSourceType').value;
@@ -123,7 +123,7 @@ async function publishVideo() {
         ]);
 
     if (error) {
-        alert("Erreur Supabase : " + error.message);
+        alert("Supabase error: " + error.message);
         console.error(error);
     } else {
         alert(`Video lecture "${videoTitle}" successfully shared on Supabase!`);
@@ -135,19 +135,19 @@ async function publishVideo() {
     }
 }
 
-// 3. 🚀 Déploiement d'un exercice (Table 'exercises')
+// 3. 🚀 Deploying an exercise (Table 'exercises')
 async function publishExercise() {
     const title = document.getElementById('exerciseTitle').value.trim();
     const instructions = document.getElementById('exerciseInstructions').value.trim();
     const fileInput = document.getElementById('exerciseFile');
 
     if (!title) {
-        alert("Veuillez saisir un titre d'exercice.");
+        alert("Please enter an exercise title.");
         return;
     }
 
     if (!instructions) {
-        alert("Veuillez remplir les instructions de l'exercice.");
+        alert("Please enter the exercise instructions.");
         return;
     }
 
@@ -165,12 +165,12 @@ async function publishExercise() {
         ]);
 
     if (error) {
-        alert("Erreur Supabase lors de l'ajout d'exercice : " + error.message);
+        alert("Supabase error when adding exercise: " + error.message);
         console.error(error);
     } else {
-        alert(`Exercice "${title}" publié avec succès dans la table exercises !`);
+        alert(`Exercise "${title}" successfully published in the exercises table!`);
 
-        // Réinitialisation du formulaire
+        // Form reset
         document.getElementById('exerciseTitle').value = "";
         document.getElementById('exerciseInstructions').value = "";
         document.getElementById('exerciseFile').value = "";
@@ -179,7 +179,7 @@ async function publishExercise() {
     }
 }
 
-// 4. 📩 Chargement des tickets d'étudiants en attente (Table 'questions')
+// 4. 📩 Loading pending student tickets (Table 'questions')
 async function fetchPendingTickets() {
     const ticketSelect = document.getElementById('questionTicket');
     if (!ticketSelect) return;
@@ -194,10 +194,10 @@ async function fetchPendingTickets() {
         return;
     }
 
-    ticketSelect.innerHTML = '<option value="">Sélectionner un ticket en attente...</option>';
+    ticketSelect.innerHTML = '<option value="">Select a pending ticket...</option>';
 
     if (!tickets || tickets.length === 0) {
-        ticketSelect.innerHTML = '<option value="">Aucune question en attente 🎉</option>';
+        ticketSelect.innerHTML = '<option value="">No questions pending 🎉</option>';
         return;
     }
 
@@ -209,17 +209,17 @@ async function fetchPendingTickets() {
     });
 }
 
-// 5. 🚀 Répondre à un ticket d'étudiant (Table 'questions')
+// 5. 🚀 Answering a student ticket (Table 'questions')
 async function answerQuestion() {
     const ticketSelect = document.getElementById('questionTicket');
     const answerText = document.getElementById('questionAnswer').value.trim();
 
     if (!ticketSelect.value) {
-        alert("Veuillez sélectionner un ticket de question.");
+        alert("Please select a question ticket.");
         return;
     }
     if (!answerText) {
-        alert("Veuillez saisir votre réponse.");
+        alert("Please enter your answer.");
         return;
     }
 
@@ -235,19 +235,19 @@ async function answerQuestion() {
         .eq('id', ticketId);
 
     if (error) {
-        alert("Erreur Supabase lors de la réponse : " + error.message);
+        alert("Supabase error when responding: " + error.message);
     } else {
-        alert("Réponse envoyée et ticket marqué comme résolu !");
+        alert("Response sent and ticket marked as resolved!");
         document.getElementById('questionAnswer').value = "";
         fetchPendingTickets();
     }
 }
 
 // ==========================================
-// GESTION DU REPOSITORY (ONGLET MANAGEMENT)
+// REPOSITORY MANAGEMENT (MANAGEMENT TAB)
 // ==========================================
 
-// 📋 Charger tous les documents dans la table CRUD
+// 📋 Load all documents in the CRUD table
 async function fetchAdminDocuments() {
     const tbody = document.getElementById('adminTableBody');
     if (!tbody) return;
@@ -288,7 +288,7 @@ async function fetchAdminDocuments() {
     });
 }
 
-// ✏️ Modifier le titre d'un document
+// ✏️ Modify document title
 async function modifyDocumentTitle(id, oldTitle) {
     const updatedTitle = prompt("Update Document Title:", oldTitle);
     if (!updatedTitle || updatedTitle.trim() === "" || updatedTitle === oldTitle) return;
@@ -305,7 +305,7 @@ async function modifyDocumentTitle(id, oldTitle) {
     }
 }
 
-// ❌ Supprimer un document
+// ❌ Delete a document
 async function removeDocument(id) {
     if (!confirm("Are you sure you want to permanently delete this file record from Supabase?")) return;
 
@@ -320,22 +320,23 @@ async function removeDocument(id) {
         fetchAdminDocuments();
     }
 }
-// 🚪 Fonction pour sortir du Dashboard (Redirection)
-// 🚪 Quitter le dashboard et bloquer le retour arrière
+
+// 🚪 Function to exit the Dashboard (Redirection)
+// 🚪 Exit dashboard and prevent backward navigation
 function exitDashboard(event) {
-    // 1. Bloque la navigation par défaut du balise <a>
+    // 1. Prevent default link behavior
     event.preventDefault();
 
-    // 2. Nettoie la session (stockage local/session)
+    // 2. Clear session storage (local/session)
     sessionStorage.clear();
     localStorage.clear();
 
-    // 3. Remplace la page actuelle dans l'historique pour bloquer le bouton "Précédent"
+    // 3. Replace current page in history to block the "Back" button
     window.location.replace("Login_page.html");
 }
 
 // ==========================================
-// INITIALISATION
+// INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     fetchPendingTickets();

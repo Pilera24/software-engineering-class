@@ -23,7 +23,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden;                @
             position: relative;
         }
 
@@ -163,6 +163,56 @@
             color: #818cf8;
             text-decoration: underline;
         }
+
+        /* Responsive Mobile Adjustments */
+        @media screen and (max-width: 480px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                padding: 24px 16px;
+                overflow-y: auto;
+            }
+
+            .register-container {
+                width: 100%;
+                max-width: 100%;
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+
+            input {
+                padding: 13px 13px 13px 42px;
+                font-size: 14px;
+            }
+
+            .input-icon {
+                left: 14px;
+                font-size: 15px;
+            }
+
+            .btn-register {
+                padding: 13px;
+                font-size: 14px;
+            }
+
+            .circle-1 {
+                width: 200px;
+                height: 200px;
+            }
+
+            .circle-2 {
+                width: 220px;
+                height: 220px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -195,7 +245,7 @@
                 <i class="fa-solid fa-lock input-icon"></i>
             </div>
 
-            <!-- Message d'erreur dynamique -->
+            <!-- Dynamic Error Message -->
             <p id="passwordError" style="color: #f43f5e; font-size: 0.85rem; display: none; margin-bottom: 15px; text-align: left;"></p>
             
             <button type="submit" class="btn-register">
@@ -215,31 +265,7 @@
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Fonction de validation des mots de passe
-    function validatePasswordConfirmation() {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        const errorElement = document.getElementById('passwordError');
-
-        // 1. Longueur minimale
-        if (password.length < 6) {
-            showError("Le mot de passe doit contenir au moins 6 caractères.");
-            return false;
-        }
-
-        // 2. Correspondance
-        if (password !== confirmPassword) {
-            showError("The passwords do not match.");
-            return false;
-        }
-
-        // Réinitialisation du message d'erreur si tout est bon
-        if (errorElement) errorElement.style.display = 'none';
-        return true;
-    }
-   
-
-    // Afficher le message d'erreur dans l'interface
+    // Dynamic error message updater
     function showError(message) {
         const errorElement = document.getElementById('passwordError');
         if (errorElement) {
@@ -250,20 +276,57 @@
         }
     }
 
-    // Écouteur sur la soumission du formulaire
+    function clearError() {
+        const errorElement = document.getElementById('passwordError');
+        if (errorElement) {
+            errorElement.style.display = 'none';
+        }
+    }
+
+    // Live validation check
+    function validatePasswordConfirmation() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password.length > 0 && password.length < 6) {
+            showError("Password must contain at least 6 characters.");
+            return false;
+        }
+
+        if (confirmPassword.length > 0 && password !== confirmPassword) {
+            showError("Passwords do not match.");
+            return false;
+        }
+
+        clearError();
+        return true;
+    }
+
+    // Attach real-time validation to inputs
+    document.getElementById('password').addEventListener('input', validatePasswordConfirmation);
+    document.getElementById('confirmPassword').addEventListener('input', validatePasswordConfirmation);
+
+    // Form submission event
     document.getElementById('registerForm').addEventListener('submit', async function(event) {
         event.preventDefault();
         
-        // --- ÉTAPE 1 : Validation préalable des mots de passe ---
-        if (!validatePasswordConfirmation()) {
-            return; // Bloque la suite si les mots de passe ne correspondent pas
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password.length < 6) {
+            showError("Password must contain at least 6 characters.");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            showError("Passwords do not match.");
+            return;
         }
 
         const email = event.target.querySelector('input[type="email"]').value;
-        const password = document.getElementById('password').value;
         const fullName = event.target.querySelector('input[type="text"]').value;
 
-        // --- ÉTAPE 2 : Création du compte via Supabase ---
+        // Step 1: Create Supabase Auth User
         const { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
@@ -274,12 +337,12 @@
         }); 
 
         if (error) {
-            showError("Registration error : " + error.message);
+            showError("Registration error: " + error.message);
             console.error(error);
             return;
         }
 
-        // --- ÉTAPE 3 : Insertion dans le profil d'utilisateur ---
+        // Step 2: Insert into 'profiles' table
         if (data.user) {
             const { error: profileError } = await supabaseClient
                 .from('profiles')
@@ -288,10 +351,10 @@
                 ]);
 
             if (profileError) {
-                console.log("Note sur le profil :", profileError.message);
+                console.warn("Profile table insert notice:", profileError.message);
             }
             
-            alert("Inscription réussie avec succès !");
+            alert("Registration successful! Redirecting to login...");
             window.location.href = 'Login_page.html';
         }
     });

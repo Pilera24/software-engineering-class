@@ -20,10 +20,10 @@
 
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
             color: #ffffff;
         }
@@ -33,6 +33,7 @@
             border-radius: 50%;
             filter: blur(100px);
             z-index: 1;
+            pointer-events: none;
         }
         .circle-1 {
             width: 400px;
@@ -51,13 +52,30 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 30px;
+            padding: 0 20px;
             height: 70px;
             z-index: 10;
         }
 
-        .nav-logo {
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
             font-size: 18px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .nav-logo {
+            font-size: clamp(14px, 2.5vw, 18px);
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -77,6 +95,7 @@
             align-items: center;
             gap: 6px;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .nav-back:hover {
@@ -89,28 +108,29 @@
         .main-container {
             display: flex;
             flex: 1;
-            overflow: hidden;
+            position: relative;
             z-index: 5;
         }
 
         /* SIDEBAR */
         .admin-sidebar {
-            width: 280px;
-            background: rgba(255, 255, 255, 0.01);
+            width: 260px;
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(16px);
             border-right: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 30px 20px;
+            padding: 25px 16px;
             display: flex;
             flex-direction: column;
             gap: 12px;
+            transition: transform 0.3s ease;
         }
 
         .sidebar-title {
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #64748b;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             font-weight: 600;
         }
 
@@ -119,7 +139,7 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
             color: #cbd5e1;
-            padding: 14px 16px;
+            padding: 12px 14px;
             font-size: 14px;
             font-weight: 500;
             border-radius: 10px;
@@ -140,15 +160,16 @@
         /* SCROLLABLE WORKSPACE */
         .admin-workspace {
             flex: 1;
-            padding: 30px;
+            padding: 25px;
             overflow-y: auto;
+            width: 100%;
         }
 
-        /* GRID POUR L'ONGLET REPOSITORY CREATION */
+        /* GRID FOR REPOSITORY CREATION TAB */
         .admin-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
+            gap: 20px;
         }
 
         .admin-panel {
@@ -156,7 +177,7 @@
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            padding: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -168,17 +189,17 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             padding-bottom: 10px;
         }
 
         .panel-header i {
-            font-size: 20px;
+            font-size: 18px;
         }
 
-        /* CONFIGURATION DES ELEMENTS FORMULAIRES */
+        /* FORM ELEMENTS CONFIGURATION */
         .form-group {
             display: flex;
             flex-direction: column;
@@ -186,19 +207,19 @@
         }
 
         label {
-            font-size: 13px;
+            font-size: 12px;
             color: #94a3b8;
             font-weight: 500;
         }
 
         input[type="text"], textarea, select {
             width: 100%;
-            padding: 12px;
+            padding: 10px 12px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             transition: border-color 0.3s;
         }
@@ -239,24 +260,25 @@
         }
 
         .file-upload-wrapper i {
-            font-size: 22px;
+            font-size: 20px;
             color: #94a3b8;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .file-upload-wrapper p {
-            font-size: 13px;
+            font-size: 12px;
             color: #cbd5e1;
+            word-break: break-word;
         }
 
         .btn-action {
             width: 100%;
-            padding: 12px;
+            padding: 11px;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             border: none;
             border-radius: 8px;
             color: white;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
@@ -278,22 +300,28 @@
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
             animation: fadeIn 0.3s ease;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
         }
 
         .crud-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 15px;
             text-align: left;
+            min-width: 500px;
         }
 
         .crud-table th, .crud-table td {
-            padding: 14px 16px;
+            padding: 12px 14px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .crud-table th {
@@ -310,8 +338,8 @@
             background: transparent;
             border: none;
             cursor: pointer;
-            font-size: 15px;
-            margin-right: 12px;
+            font-size: 14px;
+            margin-right: 10px;
             transition: transform 0.2s;
         }
 
@@ -326,6 +354,49 @@
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* MEDIA QUERIES FOR RESPONSIVENESS */
+        @media (max-width: 900px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .admin-sidebar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                z-index: 20;
+                transform: translateX(-100%);
+                box-shadow: 10px 0 25px rgba(0,0,0,0.5);
+            }
+
+            .admin-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-workspace {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 12px;
+            }
+
+            .nav-back span {
+                display: none;
+            }
+
+            .admin-panel, .management-panel {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -333,17 +404,22 @@
     <div class="bg-circle circle-1"></div>
 
     <nav class="navbar">
-        <div class="nav-logo">
-            <i class="fa-solid fa-user-shield"></i> SE Class — Admin Dashboard
+        <div class="nav-left">
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="nav-logo">
+                <i class="fa-solid fa-user-shield"></i> <span>SE Class Admin</span>
+            </div>
         </div>
         <a href="learning_space.html" class="nav-back">
-            <i class="fa-solid fa-graduation-cap"></i> Student View
+            <i class="fa-solid fa-graduation-cap"></i> <span>Student View</span>
         </a>
     </nav>
 
     <div class="main-container">
         
-        <aside class="admin-sidebar">
+        <aside class="admin-sidebar" id="sidebar">
             <div class="sidebar-title">Navigation</div>
             <button class="menu-btn active" id="btnMenuCreation" onclick="switchTab('creation')">
                 <i class="fa-solid fa-folder-plus"></i> Repository Creation
@@ -355,10 +431,8 @@
             <div class="sidebar-title" style="margin-top: 20px;">Shortcuts</div>
 
             <a href="Login_page.html" class="menu-btn" onclick="exitDashboard(event)" style="text-decoration: none;">
-              <i class="fa-solid fa-arrow-left-long"></i> Exit Dashboard
+                <i class="fa-solid fa-arrow-left-long"></i> Exit Dashboard
             </a>
-
-
         </aside>
 
         <main class="admin-workspace">
@@ -401,7 +475,7 @@
                     </div>
                     <div class="form-group">
                         <label>Video Title</label>
-                        <input type="text" id="videoTitle" placeholder="e.g., Object-Oriented Programming (OOP) Deep Dive">
+                        <input type="text" id="videoTitle" placeholder="e.g., OOP Deep Dive">
                     </div>
                     <div class="form-group">
                         <label>Source Type</label>
@@ -427,7 +501,7 @@
                     </button>
                 </div>
 
-                <!-- 3. CREATE NEW EXERCISE (WITH PDF SUPPORT) -->
+                <!-- 3. CREATE NEW EXERCISE -->
                 <div class="admin-panel">
                     <div class="panel-header">
                         <i class="fa-solid fa-pen-to-square" style="color: #38bdf8;"></i> Create New Exercise
@@ -438,13 +512,13 @@
                     </div>
                     <div class="form-group">
                         <label>Instructions & Coding Challenges</label>
-                        <textarea id="exerciseInstructions" rows="3" placeholder="Write requirements and rules for the student..."></textarea>
+                        <textarea id="exerciseInstructions" rows="3" placeholder="Write requirements and rules..."></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Attach Exercise Document (PDF, Word - Optional)</label>
+                        <label>Attach Exercise Document (PDF, Word)</label>
                         <div class="file-upload-wrapper">
                             <i class="fa-solid fa-file-pdf"></i>
-                            <p id="exerciseUploadStatus">Click or drag exercise PDF / instructions here</p>
+                            <p id="exerciseUploadStatus">Click or drag exercise PDF here</p>
                             <input type="file" id="exerciseFile" accept=".pdf,.doc,.docx" onchange="updateFileInfo('exerciseFile', 'exerciseUploadStatus', '📑 Selected: ')">
                         </div>
                     </div>
@@ -454,25 +528,24 @@
                 </div>
 
                 <!-- 4. PENDING STUDENT QUESTIONS -->
-                <!-- 4. PENDING STUDENT QUESTIONS -->
-<div class="admin-panel">
-    <div class="panel-header">
-        <i class="fa-solid fa-chalkboard-user" style="color: #a855f7;"></i> Pending Student Questions
-    </div>
-    <div class="form-group">
-        <label>Select Question Ticket</label>
-        <select id="questionTicket">
-            <option value=""><Label></Label>oading tickets...</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Your Professional Answer</label>
-        <textarea id="questionAnswer" rows="3" placeholder="Type your core architectural solution here..."></textarea>
-    </div>
-    <button class="btn-action" onclick="answerQuestion()">
-        <i class="fa-solid fa-reply"></i> Send Answer
-    </button>
-</div>
+                <div class="admin-panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-chalkboard-user" style="color: #a855f7;"></i> Pending Student Questions
+                    </div>
+                    <div class="form-group">
+                        <label>Select Question Ticket</label>
+                        <select id="questionTicket">
+                            <option value="">Loading tickets...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Professional Answer</label>
+                        <textarea id="questionAnswer" rows="3" placeholder="Type your core architectural solution here..."></textarea>
+                    </div>
+                    <button class="btn-action" onclick="answerQuestion()">
+                        <i class="fa-solid fa-reply"></i> Send Answer
+                    </button>
+                </div>
 
             </div>
 
@@ -481,28 +554,77 @@
                 <div class="panel-header">
                     <i class="fa-solid fa-folder-tree" style="color: #10b981;"></i> Repository Document Management
                 </div>
-                <table class="crud-table">
-                    <thead>
-                        <tr>
-                            <th>Document Title</th>
-                            <th>Target Folder</th>
-                            <th>Database Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminTableBody">
-                        <tr>
-                            <td colspan="3" style="text-align: center; color: #64748b; font-style: italic;">Loading files directly from Supabase database...</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="crud-table">
+                        <thead>
+                            <tr>
+                                <th>Document Title</th>
+                                <th>Target Folder</th>
+                                <th>Database Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody">
+                            <tr>
+                                <td colspan="3" style="text-align: center; color: #64748b; font-style: italic;">Loading files directly from Supabase database...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </main>
     </div>
 
+   <script>
+    
+    // 1. Gestion de la fermeture/ouverture de la sidebar mobile
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
+    }
+
+    // 2. Gestion des changements d'onglets
+    function switchTab(tabName) {
+        const tabCreation = document.getElementById('tabCreation');
+        const tabManagement = document.getElementById('tabManagement');
+        const btnCreation = document.getElementById('btnMenuCreation');
+        const btnManagement = document.getElementById('btnMenuManagement');
+
+        if (tabName === 'creation') {
+            tabCreation.style.display = 'grid';
+            tabManagement.style.display = 'none';
+            btnCreation.classList.add('active');
+            btnManagement.classList.remove('active');
+        } else if (tabName === 'management') {
+            tabCreation.style.display = 'none';
+            tabManagement.style.display = 'block';
+            btnManagement.classList.add('active');
+            btnCreation.classList.remove('active');
+            
+            // Si vous avez une fonction dans admin.js pour charger le tableau CRUD :
+            if (typeof loadAdminTable === 'function') {
+                loadAdminTable();
+            }
+        }
+
+        // Ferme le menu sur mobile après sélection
+        document.getElementById('sidebar').classList.remove('open');
+    }
+
+    // 3. Exécution automatique au chargement complet du DOM
+    document.addEventListener('DOMContentLoaded', () => {
+        // Appelle la fonction de chargement des tickets située dans admin.js
+        if (typeof loadPendingTickets === 'function') {
+            loadPendingTickets();
+        } else if (typeof fetchQuestions === 'function') {
+            fetchQuestions();
+        }
+    });
+</script>
+
     <!-- Supabase Client Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Script Admin distinct -->
+    <!-- Admin Script -->
     <script src="admin.js"></script>
 </body>
-</html>
+</html> 

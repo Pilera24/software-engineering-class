@@ -177,6 +177,59 @@
             color: #818cf8;
             text-decoration: underline;
         }
+        /* =========================================================
+           MOBILE & RESPONSIVE DESIGN (Login)
+           ========================================================= */
+        @media screen and (max-width: 480px) {
+            body {
+                /* Permet au contenu de défiler si l'écran ou le clavier virtuel coupe le bas */
+                height: auto;
+                min-height: 100vh;
+                padding: 24px 16px;
+                overflow-y: auto;
+            }
+
+            .login-container {
+                width: 100%;
+                max-width: 100%;
+                padding: 30px 20px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+                margin-bottom: 25px;
+            }
+
+            input {
+                padding: 13px 13px 13px 42px;
+                font-size: 14px;
+            }
+
+            .input-icon {
+                left: 14px;
+                font-size: 15px;
+            }
+
+            .btn-login {
+                padding: 13px;
+                font-size: 14px;
+            }
+
+            /* Réduction des cercles d'ambiance */
+            .circle-1 {
+                width: 200px;
+                height: 200px;
+            }
+
+            .circle-2 {
+                width: 220px;
+                height: 220px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -258,14 +311,14 @@
 
         // 3. 🔀 AIGUILLAGE DU RÔLE
         if (profile.role === 'admin') {
-            alert("Welcome, Administrator !");
+            //alert("Welcome, Administrator !");
             window.location.href = 'admin.html'; // Redirection Admin
         } else {
-            alert("Successful connection! Welcome to your space.");
+            //alert("Successful connection! Welcome to your space.");
             window.location.href = 'learning_space.html'; // Redirection Étudiant
         }
     }
 });
     </script>
 </body>
-</html> @
+</html> 
